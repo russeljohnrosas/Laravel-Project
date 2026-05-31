@@ -56,10 +56,11 @@ class AuthController extends Controller
         if ($user && Hash::check($request->password, $user->password)) {
             // Store user info in session
             session(['user' => [
-                'id'       => $user->id,
-                'name'     => $user->name,
-                'email'    => $user->email,
-                'is_admin' => (bool) $user->is_admin,
+                'id'          => $user->id,
+                'name'        => $user->name,
+                'email'       => $user->email,
+                'is_admin'    => (bool) $user->is_admin,
+                'profile_pic' => $user->profile_pic,
             ]]);
 
             return redirect()->route('dashboard')->with('success', 'Welcome back, ' . $user->name . '!');

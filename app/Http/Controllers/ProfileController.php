@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -17,6 +16,12 @@ class ProfileController extends Controller
         return view('profile.index', compact('user'));
     }
 
+    // Alias used by older links
+    public function show()
+    {
+        return $this->index();
+    }
+
     // Show edit form
     public function edit()
     {
@@ -25,13 +30,7 @@ class ProfileController extends Controller
         return view('profile.edit', compact('user'));
     }
 
-    // Keep old show() so existing links don't break
-    public function show()
-    {
-        return $this->index();
-    }
-
-    // Update name, email, and optional picture in one form
+    // Update name, email, and optional profile picture (saves to public/uploads/)
     public function update(Request $request)
     {
         $userId = session('user')['id'];
@@ -39,73 +38,46 @@ class ProfileController extends Controller
         $request->validate([
             'name'    => 'required|string|min:3|max:100',
             'email'   => 'required|email|unique:users,email,' . $userId,
-            'picture' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'profile' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
-        $user = User::find($userId);
-        $data = [
-            'name'  => $request->name,
-            'email' => $request->email,
-        ];
+        $user        = User::find($userId);
+        $user->name  = $request->name;
+        $user->email = $request->email;
 
-        // Handle optional picture upload
-        if ($request->hasFile('picture')) {
-            // Delete old picture if stored in the new path format
-            if ($user->profile_picture) {
-                Storage::disk('public')->delete($user->profile_picture);
+        if ($request->hasFile('profile')) {
+            // Remove old file if it exists
+            if ($user->profile_pic) {
+                $oldPath = public_path('uploads/' . $user->profile_pic);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
             }
 
-            $ext      = $request->file('picture')->getClientOriginalExtension();
-            $filename = 'profiles/user_' . $userId . '_' . time() . '.' . $ext;
-            $request->file('picture')->storeAs('', $filename, 'public');
-
-            $data['profile_picture'] = $filename;
+            $file            = $request->file('profile');
+            $filename        = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+            $user->profile_pic = $filename;
         }
 
-        $user->update($data);
+        $user->save();
 
-        // Keep session in sync
+        // Keep session in sync including the new profile_pic
         session(['user' => [
-            'id'       => $user->id,
-            'name'     => $user->name,
-            'email'    => $user->email,
-            'is_admin' => (bool) $user->is_admin,
+            'id'          => $user->id,
+            'name'        => $user->name,
+            'email'       => $user->email,
+            'is_admin'    => (bool) $user->is_admin,
+            'profile_pic' => $user->profile_pic,
         ]]);
 
         return redirect()->route('profile.index')
             ->with('success', 'Profile updated successfully!');
     }
 
-    // Upload profile picture
-    public function uploadPicture(Request $request)
-    {
-        // Validate the uploaded file
-        $request->validate([
-            'picture' => 'required|image|max:2048|mimes:jpeg,png,jpg,gif',
-        ]);
-
-        $userId = session('user')['id'];
-        $user   = User::find($userId);
-
-        // Delete old picture if it exists
-        if ($user->profile_picture) {
-            Storage::disk('public')->delete($user->profile_picture);
-        }
-
-        // Store the new picture and save the relative path to the database
-        $ext      = $request->file('picture')->getClientOriginalExtension();
-        $filename = 'profiles/user_' . $userId . '_' . time() . '.' . $ext;
-        $request->file('picture')->storeAs('', $filename, 'public');
-
-        $user->update(['profile_picture' => $filename]);
-
-        return back()->with('success', 'Profile picture updated successfully.');
-    }
-
     // Change password
     public function changePassword(Request $request)
     {
-        // Validate input
         $request->validate([
             'current_password' => 'required|string',
             'password'         => 'required|string|min:6|confirmed',
@@ -113,14 +85,12 @@ class ProfileController extends Controller
 
         $user = User::find(session('user')['id']);
 
-        // Check current password is correct
         if (!Hash::check($request->current_password, $user->password)) {
             return back()
                 ->withErrors(['current_password' => 'Current password is incorrect.'])
                 ->with('open_password_modal', true);
         }
 
-        // Update the password
         $user->update(['password' => Hash::make($request->password)]);
 
         return back()->with('success', 'Password changed successfully.');
@@ -129,26 +99,26 @@ class ProfileController extends Controller
     // Delete account
     public function deleteAccount(Request $request)
     {
-        // Validate input
         $request->validate([
             'delete_password' => 'required|string',
         ]);
 
         $user = User::find(session('user')['id']);
 
-        // Check password is correct before deleting
         if (!Hash::check($request->delete_password, $user->password)) {
             return back()
                 ->withErrors(['delete_password' => 'Password is incorrect.'])
                 ->with('open_delete_modal', true);
         }
 
-        // Delete profile picture if exists
-        if ($user->profile_picture) {
-            Storage::disk('public')->delete($user->profile_picture);
+        // Remove profile picture file if it exists
+        if ($user->profile_pic) {
+            $path = public_path('uploads/' . $user->profile_pic);
+            if (file_exists($path)) {
+                unlink($path);
+            }
         }
 
-        // Delete user and clear session
         $user->delete();
         session()->forget('user');
 

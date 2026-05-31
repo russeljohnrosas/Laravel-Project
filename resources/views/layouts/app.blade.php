@@ -101,9 +101,16 @@
         <div class="topbar-right">
             <div class="dropdown">
                 <button class="user-pill dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="user-avatar">
-                        {{ strtoupper(substr(session('user')['name'] ?? 'U', 0, 1)) }}
-                    </div>
+                    @if(session('user')['profile_pic'] ?? null)
+                        <img src="{{ asset('uploads/' . session('user')['profile_pic']) }}"
+                             alt="{{ session('user')['name'] ?? '' }}"
+                             class="user-avatar rounded-circle"
+                             style="object-fit:cover;width:32px;height:32px;padding:0;">
+                    @else
+                        <div class="user-avatar">
+                            {{ strtoupper(substr(session('user')['name'] ?? 'U', 0, 1)) }}
+                        </div>
+                    @endif
                     <div class="user-info d-none d-sm-block">
                         <div class="user-name">{{ session('user')['name'] ?? 'User' }}</div>
                         <div class="user-email">{{ session('user')['email'] ?? '' }}</div>
@@ -113,9 +120,16 @@
                 <ul class="dropdown-menu dropdown-menu-end user-dropdown">
                     <li>
                         <div class="dropdown-header-info">
-                            <div class="user-avatar-lg">
-                                {{ strtoupper(substr(session('user')['name'] ?? 'U', 0, 1)) }}
-                            </div>
+                            @if(session('user')['profile_pic'] ?? null)
+                                <img src="{{ asset('uploads/' . session('user')['profile_pic']) }}"
+                                     alt="{{ session('user')['name'] ?? '' }}"
+                                     class="rounded-circle"
+                                     style="width:40px;height:40px;object-fit:cover;border:2px solid #BAC8B1;">
+                            @else
+                                <div class="user-avatar-lg">
+                                    {{ strtoupper(substr(session('user')['name'] ?? 'U', 0, 1)) }}
+                                </div>
+                            @endif
                             <div>
                                 <div style="font-weight:600;font-size:.875rem;color:#1F2937;">{{ session('user')['name'] ?? '' }}</div>
                                 <div style="font-size:.75rem;color:#9CA3AF;">{{ session('user')['email'] ?? '' }}</div>

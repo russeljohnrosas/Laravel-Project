@@ -55,10 +55,8 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
-    Route::post('/profile/picture', [ProfileController::class, 'uploadPicture'])->name('profile.picture');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'changePassword'])->name('profile.password.update');
     Route::delete('/profile', [ProfileController::class, 'deleteAccount'])->name('profile.destroy');
 
