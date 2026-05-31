@@ -6,14 +6,10 @@
   },
   "build": {
     "commands": [
-      "composer install --optimize-autoloader --no-dev --no-interaction",
-      "php artisan config:cache",
-      "php artisan route:cache",
-      "php artisan view:cache",
-      "php artisan storage:link --force"
+      "composer install --optimize-autoloader --no-dev --no-interaction"
     ]
   },
   "deploy": {
-    "startCommand": "php artisan migrate --force && apache2-foreground"
+    "startCommand": "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
   }
 }
