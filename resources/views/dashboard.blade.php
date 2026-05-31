@@ -9,25 +9,37 @@
     {{-- ADMIN DASHBOARD --}}
     <h2 class="mb-4 fw-bold" style="font-size:1.25rem;color:#1F2937;">System Overview</h2>
 
-    {{-- Admin stat cards --}}
     <div class="row g-3 mb-4">
         <div class="col-12 col-sm-6">
             <div class="stat-card">
-                <div class="stat-label mb-2">Total Users</div>
-                <div class="stat-value" style="color:#7B9669;">{{ $totalUsers }}</div>
-                <div class="stat-note">Registered accounts</div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon" style="background:#EFF6FF;">
+                        <i class="ti ti-users" style="color:#3B82F6;font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-value mt-1" style="color:#3B82F6;">{{ $totalUsers }}</div>
+                        <div class="stat-note">Registered accounts</div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-12 col-sm-6">
             <div class="stat-card">
-                <div class="stat-label mb-2">Total Transactions</div>
-                <div class="stat-value" style="color:#6C8480;">{{ $totalTransactions }}</div>
-                <div class="stat-note">All records in system</div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon" style="background:#F0FDF4;">
+                        <i class="ti ti-list" style="color:#10B981;font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Transactions</div>
+                        <div class="stat-value mt-1" style="color:#10B981;">{{ $totalTransactions }}</div>
+                        <div class="stat-note">All records in system</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    {{-- Admin bar chart --}}
     <div class="app-card p-4">
         <div class="app-card-title mb-3">System Overview Chart</div>
         <div style="position:relative;height:280px;">
@@ -38,58 +50,85 @@
 @else
 
     {{-- USER DASHBOARD --}}
+    <h2 class="mb-4 fw-bold" style="font-size:1.2rem;color:#1F2937;">
+        Welcome back, {{ session('user')['name'] ?? 'User' }}!
+    </h2>
 
-    {{-- Stat cards --}}
+    {{-- 4 Stat Cards --}}
     <div class="row g-3 mb-4">
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="stat-card">
-                <div class="stat-label mb-2">My Transactions</div>
-                <div class="stat-value" style="color:#7B9669;">{{ $totalTransactions }}</div>
-                <div class="stat-note">Records entered</div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="stat-card">
-                <div class="stat-label mb-2">Total Balance</div>
-                <div class="stat-value" style="color:{{ $totalBalance >= 0 ? '#0F172A' : '#EF4444' }}">
-                    ₱{{ number_format($totalBalance, 2) }}
-                </div>
-                <div class="stat-note">All time</div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="stat-card">
-                <div class="stat-label mb-2">Monthly Income</div>
-                <div class="stat-value" style="color:#10B981;">
-                    ₱{{ number_format($monthlyIncome, 2) }}
-                </div>
-                <div class="stat-note">This month</div>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-xl-3">
-            <div class="stat-card">
-                <div class="stat-label mb-2">Monthly Expenses</div>
-                <div class="stat-value" style="color:#EF4444;">
-                    ₱{{ number_format($monthlyExpenses, 2) }}
-                </div>
-                <div class="stat-note">This month</div>
-            </div>
-        </div>
-    </div>
 
-    {{-- Savings rate --}}
-    <div class="app-card p-4 mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <span class="stat-label">Savings Rate This Month</span>
-            <span class="fw-bold">{{ $savingsRate }}%</span>
-        </div>
-        <div class="progress" style="height:8px;border-radius:99px;background:#F1F5F9;">
-            <div class="progress-bar"
-                 style="width:{{ min(max($savingsRate, 0), 100) }}%;
-                        background:{{ $savingsRate >= 0 ? '#7B9669' : '#EF4444' }};
-                        border-radius:99px;">
+        {{-- Total Balance --}}
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon" style="background:#EFF6FF;">
+                        <i class="ti ti-wallet" style="color:#3B82F6;font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Balance</div>
+                        <div class="stat-value mt-1" style="color:{{ $totalBalance >= 0 ? '#3B82F6' : '#EF4444' }};">
+                            ₱{{ number_format($totalBalance, 2) }}
+                        </div>
+                        <div class="stat-note">All time</div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        {{-- Total Income --}}
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon" style="background:#F0FDF4;">
+                        <i class="ti ti-trending-up" style="color:#10B981;font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Income</div>
+                        <div class="stat-value mt-1" style="color:#10B981;">
+                            ₱{{ number_format($monthlyIncome, 2) }}
+                        </div>
+                        <div class="stat-note">This month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Total Expenses --}}
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon" style="background:#FEF2F2;">
+                        <i class="ti ti-trending-down" style="color:#EF4444;font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Total Expenses</div>
+                        <div class="stat-value mt-1" style="color:#EF4444;">
+                            ₱{{ number_format($monthlyExpenses, 2) }}
+                        </div>
+                        <div class="stat-note">This month</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Savings Rate --}}
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="stat-icon" style="background:#F5F3FF;">
+                        <i class="ti ti-piggy-bank" style="color:#8B5CF6;font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <div class="stat-label">Savings Rate</div>
+                        <div class="stat-value mt-1" style="color:#8B5CF6;">
+                            {{ $savingsRate }}%
+                        </div>
+                        <div class="stat-note">Of income saved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     {{-- Charts --}}
@@ -137,7 +176,6 @@
                         <th>Date</th>
                         <th>Description</th>
                         <th>Category</th>
-                        <th>Type</th>
                         <th class="text-end">Amount</th>
                     </tr>
                 </thead>
@@ -157,18 +195,13 @@
                                 <span class="text-muted">—</span>
                             @endif
                         </td>
-                        <td>
-                            <span class="type-badge {{ $tx->type === 'Income' ? 'type-income' : 'type-expense' }}">
-                                {{ $tx->type }}
-                            </span>
-                        </td>
-                        <td class="text-end {{ $tx->type === 'Income' ? 'amount-income' : 'amount-expense' }}">
+                        <td class="text-end fw-semibold" style="color:{{ $tx->type === 'Income' ? '#10B981' : '#EF4444' }};">
                             {{ $tx->type === 'Income' ? '+' : '-' }}₱{{ number_format($tx->amount, 2) }}
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4" style="font-size:.875rem;">
+                        <td colspan="4" class="text-center text-muted py-4" style="font-size:.875rem;">
                             No transactions yet.
                             <a href="{{ route('transactions.index') }}" style="color:#7B9669;">Add your first one.</a>
                         </td>
@@ -186,16 +219,14 @@
 @push('scripts')
 @if($isAdmin)
 <script>
-    // Admin bar chart - Users vs Transactions
-    const ctx = document.getElementById('adminChart').getContext('2d');
-    new Chart(ctx, {
+    new Chart(document.getElementById('adminChart').getContext('2d'), {
         type: 'bar',
         data: {
             labels: ['Users', 'Transactions'],
             datasets: [{
                 label: 'Count',
                 data: [{{ $totalUsers }}, {{ $totalTransactions }}],
-                backgroundColor: ['rgba(123,150,105,.8)', 'rgba(108,132,128,.8)'],
+                backgroundColor: ['rgba(59,130,246,.8)', 'rgba(16,185,129,.8)'],
                 borderRadius: 6,
             }]
         },
@@ -215,7 +246,7 @@
     const categoryData = @json($categoryBreakdown);
     const trendData    = @json($monthlyTrend);
 
-    // Spending by category - doughnut chart
+    // Spending by category — doughnut
     const catCanvas = document.getElementById('categoryChart');
     if (catCanvas && categoryData.length > 0) {
         new Chart(catCanvas, {
@@ -235,10 +266,10 @@
                 maintainAspectRatio: false,
                 cutout: '65%',
                 plugins: {
-                    legend: { display: false },
+                    legend: { position: 'right', labels: { font: { size: 11 } } },
                     tooltip: {
                         callbacks: {
-                            label: ctx => ` ₱${ctx.parsed.toLocaleString('en', { minimumFractionDigits: 2 })}`,
+                            label: ctx => ` ₱${ctx.parsed.toLocaleString('en', { minimumFractionDigits: 2 })}`
                         }
                     }
                 }
@@ -246,51 +277,48 @@
         });
     }
 
-    // Monthly trend - bar chart
-    const trendCanvas = document.getElementById('trendChart');
-    if (trendCanvas) {
-        new Chart(trendCanvas, {
-            type: 'bar',
-            data: {
-                labels: trendData.map(d => d.month),
-                datasets: [
-                    {
-                        label:           'Income',
-                        data:            trendData.map(d => d.income),
-                        backgroundColor: 'rgba(123,150,105,.8)',
-                        borderRadius:    6,
-                    },
-                    {
-                        label:           'Expenses',
-                        data:            trendData.map(d => d.expenses),
-                        backgroundColor: 'rgba(220,38,38,.75)',
-                        borderRadius:    6,
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: { mode: 'index', intersect: false },
-                scales: {
-                    x: { grid: { display: false } },
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#F1F5F9' },
-                        ticks: { callback: val => '₱' + val.toLocaleString() }
-                    }
+    // Monthly income vs expenses — bar chart
+    new Chart(document.getElementById('trendChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: trendData.map(d => d.month),
+            datasets: [
+                {
+                    label:           'Income',
+                    data:            trendData.map(d => d.income),
+                    backgroundColor: 'rgba(16,185,129,.8)',
+                    borderRadius:    6,
                 },
-                plugins: {
-                    legend: { position: 'top', align: 'end' },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => ` ${ctx.dataset.label}: ₱${ctx.parsed.y.toLocaleString('en', { minimumFractionDigits: 2 })}`,
-                        }
+                {
+                    label:           'Expenses',
+                    data:            trendData.map(d => d.expenses),
+                    backgroundColor: 'rgba(239,68,68,.75)',
+                    borderRadius:    6,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x: { grid: { display: false } },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#F1F5F9' },
+                    ticks: { callback: val => '₱' + val.toLocaleString() }
+                }
+            },
+            plugins: {
+                legend: { position: 'top', align: 'end' },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => ` ${ctx.dataset.label}: ₱${ctx.parsed.y.toLocaleString('en', { minimumFractionDigits: 2 })}`
                     }
                 }
             }
-        });
-    }
+        }
+    });
 </script>
 @endif
 @endpush
