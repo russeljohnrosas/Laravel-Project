@@ -61,6 +61,10 @@ class AccountController extends Controller
         // Find account and make sure it belongs to user
         $account = Account::where('id', $id)->where('user_id', session('user')['id'])->first();
 
+        if (!$account) {
+            return back()->with('error', 'Account not found.');
+        }
+
         // Validate input
         $request->validate([
             'name'      => 'required|string|max:100',
@@ -89,6 +93,10 @@ class AccountController extends Controller
     {
         // Find account and make sure it belongs to user
         $account = Account::where('id', $id)->where('user_id', session('user')['id'])->first();
+
+        if (!$account) {
+            return back()->with('error', 'Account not found.');
+        }
 
         $account->delete();
 

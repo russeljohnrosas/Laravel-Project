@@ -62,8 +62,8 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::put('/profile/password', [ProfileController::class, 'changePassword'])->name('profile.password.update');
     Route::delete('/profile', [ProfileController::class, 'deleteAccount'])->name('profile.destroy');
 
-    // Users Management CRUD
-    Route::middleware(['auth.custom'])->group(function () {
+    // Users Management CRUD — admin only
+    Route::middleware(['admin'])->group(function () {
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');

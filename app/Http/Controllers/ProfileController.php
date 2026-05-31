@@ -84,22 +84,19 @@ class ProfileController extends Controller
             'picture' => 'required|image|max:2048|mimes:jpeg,png,jpg,gif',
         ]);
 
-        $user = User::find(session('user')['id']);
+        $userId = session('user')['id'];
+        $user   = User::find($userId);
 
         // Delete old picture if it exists
         if ($user->profile_picture) {
-            $oldPath = 'uploads/profiles/' . $user->profile_picture;
-            if (Storage::disk('public')->exists($oldPath)) {
-                Storage::disk('public')->delete($oldPath);
-            }
+            Storage::disk('public')->delete($user->profile_picture);
         }
 
-        // Store the new picture
-        $extension = $request->file('picture')->getClientOriginalExtension();
-        $filename  = time() . '_' . $user->id . '.' . $extension;
-        $request->file('picture')->storeAs('uploads/profiles', $filename, 'public');
+        // Store the new picture and save the relative path to the database
+        $ext      = $request->file('picture')->getClientOriginalExtension();
+        $filename = 'profiles/user_' . $userId . '_' . time() . '.' . $ext;
+        $request->file('picture')->storeAs('', $filename, 'public');
 
-        // Save the filename to the database
         $user->update(['profile_picture' => $filename]);
 
         return back()->with('success', 'Profile picture updated successfully.');
@@ -148,10 +145,7 @@ class ProfileController extends Controller
 
         // Delete profile picture if exists
         if ($user->profile_picture) {
-            $path = 'uploads/profiles/' . $user->profile_picture;
-            if (Storage::disk('public')->exists($path)) {
-                Storage::disk('public')->delete($path);
-            }
+            Storage::disk('public')->delete($user->profile_picture);
         }
 
         // Delete user and clear session
