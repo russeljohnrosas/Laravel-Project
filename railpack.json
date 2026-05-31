@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.railpack.com",
   "providers": ["php"],
-  "php": {
-    "version": "8.4"
+  "packages": {
+    "php": "8.4"
   }
 }
