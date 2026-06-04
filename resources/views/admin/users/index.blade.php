@@ -33,9 +33,17 @@
                         <td class="ps-4 text-muted">{{ $loop->iteration }}</td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <div class="user-avatar-sm">
-                                    {{ strtoupper(substr($user->name, 0, 1)) }}
-                                </div>
+                                @if($user->profile_pic)
+                                    <img src="{{ asset('uploads/' . $user->profile_pic) }}"
+                                         alt="{{ $user->name }}"
+                                         class="rounded-circle"
+                                         style="width:36px;height:36px;object-fit:cover;border:2px solid #E5E7EB;flex-shrink:0;">
+                                @else
+                                    <div class="user-avatar user-avatar-sm"
+                                         style="width:36px;height:36px;font-size:.8rem;flex-shrink:0;">
+                                        {{ strtoupper(substr($user->name, 0, 1)) }}
+                                    </div>
+                                @endif
                                 <span class="fw-semibold">{{ $user->name }}</span>
                             </div>
                         </td>

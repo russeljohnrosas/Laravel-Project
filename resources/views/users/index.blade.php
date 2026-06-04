@@ -22,6 +22,7 @@
                 <thead class="table-light">
                     <tr>
                         <th class="ps-4">#</th>
+                        <th>Photo</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Created Date</th>
@@ -32,6 +33,18 @@
                     @forelse($users as $user)
                     <tr>
                         <td class="ps-4 text-muted">{{ $loop->iteration }}</td>
+                        <td>
+                            @if($user->profile_pic)
+                                <img src="{{ asset('uploads/' . $user->profile_pic) }}"
+                                     alt="{{ $user->name }}"
+                                     class="rounded-circle"
+                                     style="width:36px;height:36px;object-fit:cover;border:2px solid #E5E7EB;">
+                            @else
+                                <div class="user-avatar" style="width:36px;height:36px;font-size:.8rem;">
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                </div>
+                            @endif
+                        </td>
                         <td class="fw-semibold">{{ $user->name }}</td>
                         <td class="text-muted">{{ $user->email }}</td>
                         <td class="text-muted">{{ $user->created_at->format('M d, Y') }}</td>
@@ -63,7 +76,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
+                        <td colspan="6" class="text-center py-5 text-muted">
                             <i class="ti ti-users" style="font-size:2rem;display:block;margin-bottom:.75rem;opacity:.25;"></i>
                             No users found.
                         </td>
