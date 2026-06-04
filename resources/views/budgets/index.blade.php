@@ -575,7 +575,7 @@ if (! function_exists('getCatMeta')) {
                     </div>
 
                     {{-- Expense: budget amount --}}
-                    <div id="budgetAmtWrap" style="width:95px;">
+                    <div id="budgetAmtWrap" style="width:130px;">
                         <label id="budgetAmtLabel" class="form-label mb-1">Budget (₱)</label>
                         <input type="number" id="budgetAmtInput" name="budget_amount"
                                class="form-control form-control-sm"
@@ -1195,6 +1195,7 @@ if (! function_exists('getCatMeta')) {
         padding: 1rem 1.5rem;
         background: #F8FAFC;
         border-bottom: 1px solid #E2E8F0;
+        min-height: 90px;
     }
     .cat-add-bar .form-label { font-size: .75rem; font-weight: 600; color: #374151; }
     .cat-add-bar .form-control,
