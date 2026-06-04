@@ -574,31 +574,35 @@ if (! function_exists('getCatMeta')) {
                         </select>
                     </div>
 
-                    {{-- Expense: budget amount --}}
-                    <div id="budgetAmtWrap" style="width:130px;">
+                    {{-- Expense: budget amount + Add button --}}
+                    <div id="budgetAmtWrap">
                         <label id="budgetAmtLabel" class="form-label mb-1">Budget (₱)</label>
-                        <input type="number" id="budgetAmtInput" name="budget_amount"
-                               class="form-control form-control-sm"
-                               placeholder="0.00" step="0.01" min="0.01" required>
+                        <div class="input-group input-group-sm">
+                            <input type="number" id="budgetAmtInput" name="budget_amount"
+                                   class="form-control"
+                                   placeholder="0.00" step="0.01" min="0.01"
+                                   style="width:90px;" required>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="ti ti-plus me-1"></i>Add
+                            </button>
+                        </div>
                     </div>
 
-                    {{-- Income: account picker --}}
-                    <div id="incomeAccountWrap" style="width:130px;display:none;">
+                    {{-- Income: account picker + Add button --}}
+                    <div id="incomeAccountWrap" style="display:none;">
                         <label class="form-label mb-1">Deposit to</label>
-                        <select name="account_id" id="incomeAccountSelect"
-                                class="form-select form-select-sm">
-                            <option value="">— Account —</option>
-                            @foreach ($userAccounts as $acct)
-                                <option value="{{ $acct->id }}">{{ $acct->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="flex-shrink-0">
-                        <label class="form-label mb-1" style="visibility:hidden;">Add</label>
-                        <button type="submit" class="btn btn-primary btn-sm px-3 d-flex align-items-center" style="height:32px;">
-                            <i class="ti ti-plus me-1"></i> Add
-                        </button>
+                        <div class="input-group input-group-sm">
+                            <select name="account_id" id="incomeAccountSelect"
+                                    class="form-select" style="width:110px;">
+                                <option value="">— Account —</option>
+                                @foreach ($userAccounts as $acct)
+                                    <option value="{{ $acct->id }}">{{ $acct->name }}</option>
+                                @endforeach
+                            </select>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="ti ti-plus me-1"></i>Add
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
