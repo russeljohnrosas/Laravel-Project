@@ -29,51 +29,51 @@
 
     <div class="sidebar-brand">
         <img src="{{ asset('images/Expensify.png') }}" alt="Expensify" class="sidebar-logo">
-        <span class="sidebar-brand-name">Expensify</span>
     </div>
 
     <nav class="sidebar-nav">
-        <span class="nav-section">Main</span>
         <a href="{{ route('dashboard') }}"
-           class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-            <i class="ti ti-home nav-icon" style="font-size:1.05rem;"></i>
-            <span>Dashboard</span>
+           class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+           data-bs-toggle="tooltip" data-bs-placement="right" title="Dashboard">
+            <i class="ti ti-home nav-icon"></i>
         </a>
 
-        <span class="nav-section">Finance</span>
+        <div class="nav-divider"></div>
+
         <a href="{{ route('expenses.index') }}"
-           class="nav-link {{ request()->routeIs('expenses.*') ? 'active' : '' }}">
-            <i class="ti ti-receipt nav-icon" style="font-size:1.05rem;"></i>
-            <span>Expenses</span>
+           class="nav-link {{ request()->routeIs('expenses.*') ? 'active' : '' }}"
+           data-bs-toggle="tooltip" data-bs-placement="right" title="Expenses">
+            <i class="ti ti-receipt nav-icon"></i>
         </a>
         <a href="{{ route('transactions.index') }}"
-           class="nav-link {{ request()->routeIs('transactions.index') ? 'active' : '' }}">
-            <i class="ti ti-list nav-icon" style="font-size:1.05rem;"></i>
-            <span>Transactions</span>
+           class="nav-link {{ request()->routeIs('transactions.index') ? 'active' : '' }}"
+           data-bs-toggle="tooltip" data-bs-placement="right" title="Transactions">
+            <i class="ti ti-list nav-icon"></i>
         </a>
         <a href="{{ route('budgets.index') }}"
-           class="nav-link {{ request()->routeIs('budgets.*') ? 'active' : '' }}">
-            <i class="ti ti-target nav-icon" style="font-size:1.05rem;"></i>
-            <span>Budgets</span>
+           class="nav-link {{ request()->routeIs('budgets.*') ? 'active' : '' }}"
+           data-bs-toggle="tooltip" data-bs-placement="right" title="Budgets">
+            <i class="ti ti-target nav-icon"></i>
         </a>
         <a href="{{ route('accounts.index') }}"
-           class="nav-link {{ request()->routeIs('accounts.*') ? 'active' : '' }}">
-            <i class="ti ti-wallet nav-icon" style="font-size:1.05rem;"></i>
-            <span>Accounts</span>
+           class="nav-link {{ request()->routeIs('accounts.*') ? 'active' : '' }}"
+           data-bs-toggle="tooltip" data-bs-placement="right" title="Accounts">
+            <i class="ti ti-wallet nav-icon"></i>
         </a>
-        <span class="nav-section">Account</span>
+
+        <div class="nav-divider"></div>
+
         <a href="{{ route('profile.index') }}"
-           class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
-            <i class="ti ti-user nav-icon" style="font-size:1.05rem;"></i>
-            <span>Profile</span>
+           class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}"
+           data-bs-toggle="tooltip" data-bs-placement="right" title="Profile">
+            <i class="ti ti-user nav-icon"></i>
         </a>
 
         @if(session('user')['is_admin'] ?? false)
-        <span class="nav-section">Management</span>
         <a href="{{ route('users.index') }}"
-           class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
-            <i class="ti ti-users nav-icon" style="font-size:1.05rem;"></i>
-            <span>Users</span>
+           class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}"
+           data-bs-toggle="tooltip" data-bs-placement="right" title="Users">
+            <i class="ti ti-users nav-icon"></i>
         </a>
         @endif
     </nav>
@@ -81,9 +81,9 @@
     <div class="sidebar-footer">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
-            <button type="submit" class="sidebar-logout">
-                <i class="ti ti-logout nav-icon" style="font-size:1.05rem;"></i>
-                <span>Logout</span>
+            <button type="submit" class="sidebar-logout"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Logout">
+                <i class="ti ti-logout nav-icon"></i>
             </button>
         </form>
     </div>
@@ -190,6 +190,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/toast.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script>
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+        new bootstrap.Tooltip(el, { trigger: 'hover' });
+    });
+</script>
 
 @if (session('success'))
     <script>showToast('{{ addslashes(session("success")) }}', 'success')</script>
