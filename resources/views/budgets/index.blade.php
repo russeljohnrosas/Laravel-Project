@@ -594,9 +594,12 @@ if (! function_exists('getCatMeta')) {
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-sm px-3 flex-shrink-0" style="height:32px;">
-                        <i class="ti ti-plus"></i>
-                    </button>
+                    <div class="flex-shrink-0">
+                        <label class="form-label mb-1" style="visibility:hidden;">Add</label>
+                        <button type="submit" class="btn btn-primary btn-sm px-3 d-flex align-items-center" style="height:32px;">
+                            <i class="ti ti-plus me-1"></i> Add
+                        </button>
+                    </div>
                 </form>
             </div>
 
