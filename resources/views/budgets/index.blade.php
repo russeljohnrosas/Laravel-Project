@@ -538,7 +538,7 @@ if (! function_exists('getCatMeta')) {
 ════════════════════════════════════════════════════════════════════════ --}}
 <div class="modal fade" id="manageCategoriesModal" tabindex="-1" aria-labelledby="manageCategoriesLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:720px;">
-        <div class="modal-content modal-custom" style="min-height:780px;">
+        <div class="modal-content modal-custom">
 
             <div class="modal-header-custom">
                 <h5 class="modal-title-custom" id="manageCategoriesLabel">
