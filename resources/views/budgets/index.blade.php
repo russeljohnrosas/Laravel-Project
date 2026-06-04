@@ -537,8 +537,8 @@ if (! function_exists('getCatMeta')) {
      MODAL — MANAGE CATEGORIES
 ════════════════════════════════════════════════════════════════════════ --}}
 <div class="modal fade" id="manageCategoriesModal" tabindex="-1" aria-labelledby="manageCategoriesLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:900px;">
-        <div class="modal-content modal-custom" style="min-height:870px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width:720px;">
+        <div class="modal-content modal-custom" style="min-height:680px;">
 
             <div class="modal-header-custom">
                 <h5 class="modal-title-custom" id="manageCategoriesLabel">
@@ -691,7 +691,7 @@ if (! function_exists('getCatMeta')) {
                 @endif
             </div>
 
-            <div class="modal-footer-custom" style="padding:1.25rem 50px;">
+            <div class="modal-footer-custom" style="padding:1rem 38px;">
                 <small id="catCountBadge" class="text-muted me-auto" style="font-size:.8rem;">
                     {{ $managedCategories->count() }} {{ Str::plural('category', $managedCategories->count()) }}
                 </small>
@@ -1199,27 +1199,26 @@ if (! function_exists('getCatMeta')) {
 
     /* ── Manage Categories modal ── */
     .cat-add-bar {
-        padding: 50px;
+        padding: 38px;
         background: #F8FAFC;
         border-bottom: 1px solid #E2E8F0;
     }
     .cat-add-bar .form-label { font-size: .8rem; font-weight: 600; color: #374151; margin-bottom: 6px; }
-    .cat-add-bar .gap-2 { gap: 20px !important; }
+    .cat-add-bar .gap-2 { gap: 14px !important; }
     .cat-add-bar .form-control,
     .cat-add-bar .form-select  { border: 1.5px solid #E5E7EB; border-radius: 7px; font-size: .9rem; }
     .cat-add-bar .form-control:focus,
     .cat-add-bar .form-select:focus { border-color: #7B9669; box-shadow: 0 0 0 3px rgba(123,150,105,.12); }
 
-    .cat-empty { padding: 2.5rem 50px; text-align: center; }
+    .cat-empty { padding: 2.5rem 38px; text-align: center; }
 
     .cat-list { list-style: none; margin: 0; padding: 0; }
 
     .cat-item {
-        padding: 15px 50px;
+        padding: 12px 38px;
         border-bottom: 1px solid #F1F5F9;
-        margin-bottom: 12px;
     }
-    .cat-item:last-child { border-bottom: none; margin-bottom: 0; }
+    .cat-item:last-child { border-bottom: none; }
 
     .cat-edit-form .form-control,
     .cat-edit-form .form-select { border: 1.5px solid #E5E7EB; border-radius: 7px; font-size: .85rem; }
