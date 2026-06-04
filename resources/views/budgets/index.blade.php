@@ -551,11 +551,13 @@ if (! function_exists('getCatMeta')) {
 
             {{-- Add new category form ── --}}
             <div class="cat-add-bar">
-                <form id="addCatForm" action="{{ route('categories.store') }}" method="POST" class="d-flex gap-2 align-items-end flex-wrap">
+                <form id="addCatForm" action="{{ route('categories.store') }}" method="POST"
+                      style="display:flex;align-items:flex-end;gap:12px;">
                     @csrf
                     <input type="hidden" name="month" value="{{ $month->format('Y-m') }}">
 
-                    <div class="flex-grow-1" style="min-width:110px;">
+                    {{-- Category Name: takes remaining space (~46%) --}}
+                    <div style="flex:1;min-width:0;">
                         <label class="form-label mb-1">Category Name</label>
                         <input type="text" name="name"
                                class="form-control form-control-sm @error('name') is-invalid @enderror"
@@ -565,7 +567,8 @@ if (! function_exists('getCatMeta')) {
                         @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
-                    <div style="width:105px;">
+                    {{-- Type: fixed 110px (~17%) --}}
+                    <div style="width:110px;flex-shrink:0;">
                         <label class="form-label mb-1">Type</label>
                         <select name="type" class="form-select form-select-sm @error('type') is-invalid @enderror"
                                 onchange="toggleCatTypeFields(this)" required>
@@ -574,32 +577,30 @@ if (! function_exists('getCatMeta')) {
                         </select>
                     </div>
 
-                    {{-- Expense: budget amount + Add button --}}
-                    <div id="budgetAmtWrap">
+                    {{-- Expense: budget input + Add button — fixed 215px (~33%) --}}
+                    <div id="budgetAmtWrap" style="width:215px;flex-shrink:0;">
                         <label id="budgetAmtLabel" class="form-label mb-1">Budget (₱)</label>
                         <div class="input-group input-group-sm">
                             <input type="number" id="budgetAmtInput" name="budget_amount"
                                    class="form-control"
-                                   placeholder="0.00" step="0.01" min="0.01"
-                                   style="width:90px;" required>
-                            <button type="submit" class="btn btn-primary">
+                                   placeholder="0.00" step="0.01" min="0.01" required>
+                            <button type="submit" class="btn btn-primary px-3">
                                 <i class="ti ti-plus me-1"></i>Add
                             </button>
                         </div>
                     </div>
 
-                    {{-- Income: account picker + Add button --}}
-                    <div id="incomeAccountWrap" style="display:none;">
+                    {{-- Income: account picker + Add button — same fixed 215px --}}
+                    <div id="incomeAccountWrap" style="width:215px;flex-shrink:0;display:none;">
                         <label class="form-label mb-1">Deposit to</label>
                         <div class="input-group input-group-sm">
-                            <select name="account_id" id="incomeAccountSelect"
-                                    class="form-select" style="width:110px;">
+                            <select name="account_id" id="incomeAccountSelect" class="form-select">
                                 <option value="">— Account —</option>
                                 @foreach ($userAccounts as $acct)
                                     <option value="{{ $acct->id }}">{{ $acct->name }}</option>
                                 @endforeach
                             </select>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary px-3">
                                 <i class="ti ti-plus me-1"></i>Add
                             </button>
                         </div>
