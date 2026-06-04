@@ -19,14 +19,14 @@ class AuthController extends Controller
     {
         // Validate input
         $request->validate([
-            'name'     => 'required|string|min:3|max:100',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'first_name' => 'required|string|min:2|max:50',
+            'last_name'  => 'required|string|min:2|max:50',
+            'email'      => 'required|email|unique:users',
+            'password'   => 'required|min:6|confirmed',
         ]);
 
-        // Hash the password and create user
         User::create([
-            'name'     => $request->name,
+            'name'     => trim($request->first_name . ' ' . $request->last_name),
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);

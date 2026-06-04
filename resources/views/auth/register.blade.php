@@ -240,16 +240,29 @@
         <form action="{{ route('register.store') }}" method="POST" novalidate id="registerForm">
             @csrf
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
-                <input type="text" id="name" name="name"
-                       class="form-control @error('name') is-invalid @enderror"
-                       placeholder="Russel John Rosas"
-                       value="{{ old('name') }}"
-                       autocomplete="name" required>
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" id="first_name" name="first_name"
+                           class="form-control @error('first_name') is-invalid @enderror"
+                           placeholder="Russel"
+                           value="{{ old('first_name') }}"
+                           autocomplete="given-name" required>
+                    @error('first_name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="col-6">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" id="last_name" name="last_name"
+                           class="form-control @error('last_name') is-invalid @enderror"
+                           placeholder="Rosas"
+                           value="{{ old('last_name') }}"
+                           autocomplete="family-name" required>
+                    @error('last_name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
             <div class="mb-3">
