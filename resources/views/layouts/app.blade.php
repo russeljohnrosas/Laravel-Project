@@ -41,11 +41,6 @@
         </a>
 
         <span class="nav-section">Finance</span>
-        <a href="{{ route('expenses.index') }}"
-           class="nav-link {{ request()->routeIs('expenses.*') ? 'active' : '' }}">
-            <i class="ti ti-receipt nav-icon"></i>
-            <span>Expenses</span>
-        </a>
         <a href="{{ route('transactions.index') }}"
            class="nav-link {{ request()->routeIs('transactions.index') ? 'active' : '' }}">
             <i class="ti ti-list nav-icon"></i>
